@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--用mapper标签定义实现接口，namespace里面写的是dao接口的全限定名-->
+<mapper namespace="com.baizhi.zfq.dao.BookDao" >
+<!--    resultType规定数据库返回的零散的数据要以什么java返回-->
+<!--    不需要强调数据类型为list,mybatis框架会自动将每条User数据封装为list，只需要关注集合的泛型即可-->
+<!--    当java实体类与数据库的属性名对不上时，需要用as起名来对上-->
+<!--    limit语句  逗号之前 代表从哪一条开始查，逗号之后 代表查几条-->
+    <select id="selectBookLimit" parameterType="Integer" resultType="Book">
+        select ID,NAME,AUTHOR,PRICE,PRESS,PRESS_DATE as pressDate,
+               COVER_FILE_NAME as coverFileName,SALE,STOCK
+        from book limit #{begin},5;
+    </select>
+
+    <select id="selectBookCount"  resultType="Integer">
+        select count(id) from book
+    </select>
+
+    <insert id="insertBook" parameterType="Book">
+        insert into book values(#{id},#{name},#{author},#{price},#{press},
+                                #{pressDate},#{coverFileName},#{sale},#{stock})
+    </insert>
+
+    <delete id="deleteBook" parameterType="String">
+        delete from book where ID=#{id};
+    </delete>
+
+    <update id="updateBook" parameterType="Book">
+        update book  set name=#{name},AUTHOR=#{author},PRICE=#{price},press=#{press},
+                        PRESS_DATE=#{pressDate},COVER_FILE_NAME=#{coverFileName},SALE=#{sale},
+                        STOCK=#{stock} where ID=#{id}
+    </update>
+
+    <select id="selectBookById" parameterType="Book" resultType="Book">
+        select ID,NAME,AUTHOR,PRICE,PRESS,PRESS_DATE as pressDate,
+               COVER_FILE_NAME as coverFileName,SALE,STOCK
+        from book where id=#{id};
+    </select>
+
+    <select id="selectBookByName" parameterType="String" resultType="Book">
+        select ID,NAME,AUTHOR,PRICE,PRESS,PRESS_DATE as pressDate,
+               COVER_FILE_NAME as coverFileName,SALE,STOCK
+        from book where NAME like #{value};
+    </select>
+
+    <select id="selectBookByAuthor" parameterType="String" resultType="Book">
+        select ID,NAME,AUTHOR,PRICE,PRESS,PRESS_DATE as pressDate,
+               COVER_FILE_NAME as coverFileName,SALE,STOCK
+        from book where AUTHOR like #{value};
+    </select>
+
+    <select id="selectBookByPress" parameterType="String" resultType="Book">
+        select ID,NAME,AUTHOR,PRICE,PRESS,PRESS_DATE as pressDate,
+               COVER_FILE_NAME as coverFileName,SALE,STOCK
+        from book where PRESS like #{value};
+    </select>
+</mapper>

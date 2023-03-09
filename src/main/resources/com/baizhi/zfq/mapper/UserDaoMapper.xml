@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--用mapper标签定义实现接口，namespace里面写的是dao接口的全限定名-->
+<mapper namespace="com.baizhi.zfq.dao.UserDao" >
+<!--    resultType规定数据库返回的零散的数据要以什么java返回-->
+<!--    不需要强调数据类型为list,mybatis框架会自动将每条User数据封装为list，只需要关注集合的泛型即可-->
+    <select id="selectUserById" resultType="com.baizhi.zfq.entity.User">
+        select * from test where id=#{id};
+    </select>
+    <select id="selectAll" resultType="com.baizhi.zfq.entity.User">
+        select id,name,age from test;
+    </select>
+
+    <insert id="insertUser" parameterType="com.baizhi.zfq.entity.User">
+        insert into test values (#{id},#{name},#{age})
+    </insert>
+<!--parameterType 规定传入的值类型-->
+    <delete id="deleteUserById" parameterType="java.lang.Integer">
+        delete from test where id=#{id}
+    </delete>
+
+    <update id="updateUser" parameterType="User">
+        update test set id=#{id},name=#{name},age=#{age} where id=#{id}
+    </update>
+</mapper>
